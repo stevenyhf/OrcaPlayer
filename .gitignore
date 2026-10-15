@@ -1,0 +1,23 @@
+# Gradle
+.gradle/
+build/
+*/build/
+.idea/
+*.iml
+
+# Android Studio
+app/.gradle/
+app/local.properties
+app/DATA
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Generated files
+*.apk
+*.aab
+*signed.apk
+
+# Node modules (for Capacitor builds)
+node_modules/
