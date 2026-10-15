@@ -20,11 +20,15 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Accept Android licenses
-        run: sdkmanager "platforms;android-36" "build-tools;35.0.0" 2>/dev/null || true
+      - name: Install Android SDK
+        run: |
+          mkdir -p "$ANDROID_HOME/cmdline-tools"
+          cd "$ANDROID_HOME/cmdline-tools"
+          curl -sLO https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
+          unzip -q commandlinetools-linux-9477386_latest.zip
+          mv cmdtools latest
+          yes | sdkmanager --licenses > /dev/null
+          sdkmanager "platforms;android-34" "build-tools;34.0.0" > /dev/null
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -38,3 +42,4 @@ jobs:
           name: orcplayer-debug-apk
           path: app/build/outputs/apk/debug/*.apk
           retention-days: 5
+
