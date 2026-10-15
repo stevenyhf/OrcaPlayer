@@ -22,13 +22,16 @@ jobs:
 
       - name: Install Android SDK
         run: |
-          mkdir -p "$ANDROID_HOME/cmdline-tools"
-          cd "$ANDROID_HOME/cmdline-tools"
+          export ANDROID_SDK_ROOT="$HOME/Android/Sdk"
+          mkdir -p "$ANDROID_SDK_ROOT/cmdline-tools"
+          cd "$ANDROID_SDK_ROOT/cmdline-tools"
           curl -sLO https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
           unzip -q commandlinetools-linux-9477386_latest.zip
-          mv cmdtools latest
+          mv cmdline-tools latest
+          export PATH="$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH"
           yes | sdkmanager --licenses > /dev/null
           sdkmanager "platforms;android-34" "build-tools;34.0.0" > /dev/null
+          sdkmanager --list_sdk
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -42,4 +45,3 @@ jobs:
           name: orcplayer-debug-apk
           path: app/build/outputs/apk/debug/*.apk
           retention-days: 5
-
